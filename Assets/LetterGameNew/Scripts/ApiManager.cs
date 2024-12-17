@@ -366,6 +366,7 @@ namespace APICalls
 
             //   LogSystem.LogEvent("PublicKey {0} PrivateKey {1}", profileResponse.result.PublicGameKey, profileResponse.result.PrivateGameKey);
             GamePlayController.Instance.BonusController.OutGameBonusCount = profileResponse.result.out_game_bonus;
+
             if (!profileResponse.error)
             {
                 callBack(true, profileResponse);

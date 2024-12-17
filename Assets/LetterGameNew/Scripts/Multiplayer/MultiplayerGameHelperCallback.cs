@@ -17,22 +17,14 @@ namespace Gameplay
         private void OnRoomConnected()
         {
             Debug.LogFormat("OnRoomConnected {0}", (string)PhotonNetwork.CurrentRoom.CustomProperties["gameData"]);
-
             _multiplayerGameUI.ToggleRoundScorePanel(false);
             string roomDataJson = (string)PhotonNetwork.CurrentRoom.CustomProperties["gameData"];
             currentGameData = JsonConvert.DeserializeObject<CreateMultiplayerData>(roomDataJson);
             GlobalData.MultiplayerType = currentGameData.multiplayerType;
             _multiplayerGameUI.ToggleWaitingPanel(true);
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                CommonApi.CreateGame(GlobalData.UserId, "2", currentGameData.time, currentGameData.date, currentGameData.gamemode, (int)currentGameData.multiplayerType, _gamePlayController);
-            }
-            else
-            {
-                HandleEvents.ChangeStates(States.GamePlay);
-            }
-
+            CommonApi.CreateGame(GlobalData.UserId, "2", currentGameData.time, currentGameData.date, currentGameData.gamemode, (int)currentGameData.multiplayerType, _gamePlayController);
+            
             // CheckForRequiredPlayers();
 
             _multiplayerGameUI.UpdateConnectedPlayers();

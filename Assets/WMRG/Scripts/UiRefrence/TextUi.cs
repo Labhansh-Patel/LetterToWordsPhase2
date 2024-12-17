@@ -12,6 +12,7 @@ public class TextUi : MonoBehaviour
     public TextMeshProUGUI GameModeTxt;
 
     public Text HomeNameTxt;
+    public TextMeshProUGUI BonusCointTxt;
 
     public Text GameAnyTileText;
     public Text GameExtraTraySpaceText;

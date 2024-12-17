@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using GameEvents;
+using NUnit.Framework.Constraints;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -22,6 +25,7 @@ namespace Gameplay
         [SerializeField] private Button shareBtn, startGameBtn;
         [SerializeField] private Text countdownShowText;
         [SerializeField] private GameObject countDownDisplay;
+        [SerializeField] private TextMeshProUGUI countDownTimer;
         [SerializeField] private GameObject joinedPlayerPrefab;
         [SerializeField] private Transform joinPlayerParent;
 
@@ -57,6 +61,7 @@ namespace Gameplay
         private void BackToHome()
         {
             EventHandlerGame.EmitEvent(GameEventType.ExitGameRoom);
+            StopCoroutine(StartCountDownAnim());
         }
 
         public void ToggleRoundScorePanel(bool active)
@@ -141,7 +146,7 @@ namespace Gameplay
             }
             else if (playerCount > 1)
             {
-                if(PhotonNetwork.IsMasterClient)
+                if (PhotonNetwork.IsMasterClient)
                 {
                     startGameBtn.gameObject.SetActive(true);
                 }
@@ -229,6 +234,24 @@ namespace Gameplay
             countDownDisplay.gameObject.SetActive(active);
         }
 
+        public void StartCountDownTimer()
+        {
+            StartCoroutine(TimerCountDown());
+        }
+
+        IEnumerator TimerCountDown()
+        {
+            countDownTimer.gameObject.SetActive(true);
+
+            for (int i = 15; i > 0; i--)
+            {
+                countDownTimer.text = i.ToString();
+                yield return new WaitForSeconds(1f);
+            }
+
+            countDownTimer.gameObject.SetActive(false);
+        }
+
         public void IsExtraTimeBlocked(bool active)
         {
             blockExtraTime.SetActive(active);
@@ -244,22 +267,58 @@ namespace Gameplay
             {
                 addTimeExtra.gameObject.SetActive(true);
             }
-            
-        
+
+
+            int minutes = remainingTime / 60;
+            int seconds = remainingTime % 60;
+
 
             if (gameType == MultiplayerType.FastGame)
             {
-                countdownShowText.color = Color.white;
+                if (minutes == 0 && seconds <= 20)
+                {
+                    if (!timerAlartStarted)
+                    {
+                        StartCoroutine(StartCountDownAnim());
+                        timerAlartStarted = true;
+                    }
+                    countdownShowText.color = Color.red;
+                    
+                    countdownShowText.text = seconds.ToString();
+
+                } 
+                else
+                {
+                    countdownShowText.color = Color.white;
+                    countdownShowText.text = $" {minutes:00} : {seconds:00}";
+                }
             }
             else
             {
                 countdownShowText.color = Color.black;
             }
-
-            int minutes = remainingTime / 60;
-            int seconds = remainingTime % 60;
-
-            countdownShowText.text = $" {minutes:00} : {seconds:00}";
         }
+
+        IEnumerator StartCountDownAnim()
+        {
+            int direction = 1;
+            while (true)
+            {
+                countdownShowText.transform.localScale += Vector3.one * 0.02f * direction;
+                if(countdownShowText.transform.localScale.x > 2f && direction == 1)
+                {
+                    direction = -1;
+                }
+                else if(countdownShowText.transform.localScale.x < 1f && direction == -1)
+                {
+                    direction = 1;
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        private bool timerAlartStarted = false;
     }
+    
+    
 }

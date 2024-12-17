@@ -362,6 +362,7 @@ namespace Gameplay
 
         private IEnumerator StartScoreSubmitTimer(int timer)
         {
+            Debug.Log("Show Timer Started");
             _multiplayerGameUI.SetShowCountDownTimer(timer, currentGameData.multiplayerType);
             _multiplayerGameUI.ToggleCountDownText(true);
             _multiplayerGameUI.ToggleBonusResult(true);
@@ -412,7 +413,7 @@ namespace Gameplay
             }
             else
             {
-                if (!recievedRoundScore.ContainsKey(PhotonNetwork.LocalPlayer))
+              //  if (!recievedRoundScore.ContainsKey(PhotonNetwork.LocalPlayer))
                 {
                     _gamePlayController.RoundDone(true);
                 }
@@ -443,7 +444,9 @@ namespace Gameplay
 
         private IEnumerator ShowRoundResult(int waitTime)
         {
+            Debug.Log("Timer started");
             _multiplayerGameUI.ToggleCountDownText(false);
+            _multiplayerGameUI.StartCountDownTimer();
             _multiplayerGameUI.ToggleBonusResult(false);
             _multiplayerGameUI.AddRoundScore(recievedRoundScore, FinalScoreData, currentGameData.multiplayerType);
             yield return new WaitForSecondsRealtime(waitTime);

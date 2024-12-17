@@ -255,7 +255,7 @@ namespace Networking
         {
             //UI_Manager._instance.ShowActiveRoomName(roomList);
             LogSystem.LogEvent("RoomListUpdate {0}", roomList.Count);
-            ;
+            
 
             foreach (var roomInfo in roomList)
             {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class GameUi : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameUi : MonoBehaviour
     public InputFieldUi _inputFieldUi;
     public PrefabUi _Prefabs;
     public ImageUi _imageUi;
-
+    
     private void Awake()
     {
         instance = this;

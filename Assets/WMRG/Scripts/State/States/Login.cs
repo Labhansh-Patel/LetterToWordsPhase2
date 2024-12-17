@@ -7,15 +7,15 @@ using UnityEngine;
 public class Login : IState
 {
     private GameUi gameUi;
-    private FacebookHelper facebookHelper;
-    private GoogleSignInHelper googleSignInHelper;
+    // private FacebookHelper facebookHelper;
+    // private GoogleSignInHelper googleSignInHelper;
     private bool isSocialLogin = false;
 
     public Login(GameUi gameUi)
     {
         this.gameUi = gameUi;
-        facebookHelper = new FacebookHelper();
-        googleSignInHelper = new GoogleSignInHelper();
+        // facebookHelper = new FacebookHelper();
+        // googleSignInHelper = new GoogleSignInHelper();
     }
 
 
@@ -79,18 +79,18 @@ public class Login : IState
     private void FacebookBtnClick()
     {
         isSocialLogin = true;
-        facebookHelper.LoginFacebookOperation(FacebookCallBack);
+        // facebookHelper.LoginFacebookOperation(FacebookCallBack);
     }
     
-    private void FacebookCallBack(FacebookHelper.FacebookData facebookData)
-    {
-        EventHandlerGame.EmitEvent(GameEventType.Loading, true);
-        string userImage = $"https://graph.facebook.com/{facebookData.id}/picture?type=square";
-        LogSystem.LogEvent("UserImage {0}", userImage);
-        LogSystem.LogEvent("UserImage {0}", facebookData.name , facebookData.id);
-        ApiManager.LoginUserSocial(facebookData.id, facebookData.name, userImage, string.Empty, 3, GlobalData.DeviceType.ToString(),
-            GlobalData.DeviceToken, HandleLoginCall);
-    }
+    // private void FacebookCallBack(FacebookHelper.FacebookData facebookData)
+    // {
+    //     EventHandlerGame.EmitEvent(GameEventType.Loading, true);
+    //     string userImage = $"https://graph.facebook.com/{facebookData.id}/picture?type=square";
+    //     LogSystem.LogEvent("UserImage {0}", userImage);
+    //     LogSystem.LogEvent("UserImage {0}", facebookData.name , facebookData.id);
+    //     ApiManager.LoginUserSocial(facebookData.id, facebookData.name, userImage, string.Empty, 3, GlobalData.DeviceType.ToString(),
+    //         GlobalData.DeviceToken, HandleLoginCall);
+    // }
 
 
     // public static GetProfile GetProfile(List<GetProfile> profiles, string id)
@@ -101,18 +101,18 @@ public class Login : IState
     {
         isSocialLogin = true;
         Debug.Log("googleSignInHelper:");
-        googleSignInHelper.OnSignIn(HandleGoogleSignIn);
+        // googleSignInHelper.OnSignIn(HandleGoogleSignIn);
     }
 
-    private void HandleGoogleSignIn(GoogleSignInHelper.GoogleSignInData signInData)
-    {
-        LogSystem.LogEvent("GoogleData {0}", signInData.ToString());
-        Debug.Log(signInData.DisplayName.ToString() + signInData.Email.ToString()+signInData.UserId.ToString());
-        EventHandlerGame.EmitEvent(GameEventType.Loading, true);
-        ApiManager.LoginUserSocial(signInData.UserId, signInData.DisplayName, signInData.ImageUrl, signInData.Email,
-            3, GlobalData.DeviceType.ToString(),
-            GlobalData.DeviceToken, HandleLoginCall);
-    }
+    // private void HandleGoogleSignIn(GoogleSignInHelper.GoogleSignInData signInData)
+    // {
+    //     LogSystem.LogEvent("GoogleData {0}", signInData.ToString());
+    //     Debug.Log(signInData.DisplayName.ToString() + signInData.Email.ToString()+signInData.UserId.ToString());
+    //     EventHandlerGame.EmitEvent(GameEventType.Loading, true);
+    //     ApiManager.LoginUserSocial(signInData.UserId, signInData.DisplayName, signInData.ImageUrl, signInData.Email,
+    //         3, GlobalData.DeviceType.ToString(),
+    //         GlobalData.DeviceToken, HandleLoginCall);
+    // }
     
     //Validation
     bool EmailValidate(string _email)

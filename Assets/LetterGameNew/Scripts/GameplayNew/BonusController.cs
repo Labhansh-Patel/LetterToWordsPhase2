@@ -56,12 +56,20 @@ namespace Gameplay
             SetBonusMark(false);
             ExcludeOutGameBonus(true);
         }
-
-
+        
         public void SetBonusForFun()
         {
             outgameBonusTxt.SetActive(true);
-            SetBonusMark(true);
+            
+            if(outGameBonusCount > 0)
+            {
+                SetBonusMark(true);
+            }
+            else
+            {
+                SetBonusMark(false);
+            }
+            
             ExcludeOutGameBonus(false);
         }
 

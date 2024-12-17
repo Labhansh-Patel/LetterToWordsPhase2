@@ -18,6 +18,7 @@ public class HomeScreen : IState
         RemoveListeners();
         AddAllListeners();
         gameUi._textUi.HomeNameTxt.text = GlobalData.UserName;
+        gameUi._textUi.BonusCointTxt.text = GamePlayController.Instance.BonusController.OutGameBonusCount.ToString();
         
         if (GlobalData.userData.IsSocialLogin)
         {
